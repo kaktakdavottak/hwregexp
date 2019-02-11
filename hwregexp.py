@@ -34,8 +34,29 @@ for contact in contacts_list:
         contact[1] = result.group(1)
         contact[2] = result.group(3)
 
+contacts_dict = {}
+for contact in contacts_list:
+    if contact[0] not in contacts_dict.keys():
+        contacts_dict[contact[0]] = contact[1:]
+    else:
+        for e, item in enumerate(contact[1:]):
+            if contacts_dict[contact[0]][e-6] == '':
+                contacts_dict[contact[0]][e-6] = item
+            # print(e, item)
+
+new_contacts_list = []
+for key, value in contacts_dict.items():
+    local_contact = []
+    local_contact.append(key)
+    for i in value:
+        local_contact.append(i)
+    new_contacts_list.append(local_contact)
+
+pprint(new_contacts_list)
+
 with open("phonebook.csv", "w", encoding="utf8") as f:
     datawriter = csv.writer(f, delimiter=',')
-    datawriter.writerows(contacts_list)
+    datawriter.writerows(new_contacts_list)
+
 
 
